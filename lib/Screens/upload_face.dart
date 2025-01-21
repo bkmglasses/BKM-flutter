@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UploadFace extends StatefulWidget {
   const UploadFace({super.key});
@@ -33,7 +33,7 @@ class _UploadFaceState extends State<UploadFace> {
     return base64Encode(bytes);
   }
 
-  // Upload the image as a Base64 string to Firestore
+  // Upload the image to Firestore
   Future<void> _uploadImageToDatabase() async {
     if (_image == null || _descriptionController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -43,13 +43,17 @@ class _UploadFaceState extends State<UploadFace> {
     }
 
     try {
+      // Get the userId of the currently signed-in user
+      String userId = FirebaseAuth.instance.currentUser!.uid;
+
       // Convert the image to Base64
       final base64Image = await _imageToBase64(_image!);
 
-      // Save the Base64 string and description to Firestore
+      // Save the image and description to Firestore
       await FirebaseFirestore.instance.collection('photos').add({
         'image': base64Image,
         'description': _descriptionController.text.trim(),
+        'userId': userId, // Store userId to associate with the uploaded image
         'createdAt': Timestamp.now(),
       });
 
@@ -57,7 +61,6 @@ class _UploadFaceState extends State<UploadFace> {
         SnackBar(content: Text('Image uploaded successfully')),
       );
 
-      // Clear state
       setState(() {
         _image = null;
         _descriptionController.clear();
@@ -65,7 +68,6 @@ class _UploadFaceState extends State<UploadFace> {
 
       Navigator.pop(context);
     } catch (e) {
-      print('Error uploading image: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Upload failed: $e')),
       );
@@ -78,13 +80,7 @@ class _UploadFaceState extends State<UploadFace> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color.fromARGB(255, 247, 206, 77),
-        title: Text(
-          'Upload Image',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 30,
-          ),
-        ),
+        title: Text('Upload Image'),
       ),
       body: Column(
         children: [
@@ -116,66 +112,6 @@ class _UploadFaceState extends State<UploadFace> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class DisplayImages extends StatelessWidget {
-  const DisplayImages({super.key});
-
-  // Convert Base64 string to Uint8List
-  Uint8List _base64ToImage(String base64String) {
-    return base64Decode(base64String);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 247, 206, 77),
-        title: Text(
-          'View Images',
-          style: TextStyle(color: Colors.black, fontSize: 30),
-        ),
-      ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('photos').orderBy('createdAt', descending: true).snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
-          }
-          final documents = snapshot.data!.docs;
-
-          return ListView.builder(
-            itemCount: documents.length,
-            itemBuilder: (context, index) {
-              final data = documents[index];
-              final base64String = data['image'];
-              final description = data['description'];
-
-              return Card(
-                child: Column(
-                  children: [
-                    Image.memory(
-                      _base64ToImage(base64String),
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        description,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        },
       ),
     );
   }

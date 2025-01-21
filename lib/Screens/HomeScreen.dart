@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:senior/Screens/new_face.dart';
 import 'package:senior/Screens/new_map.dart';
 import 'package:senior/widget/navigation_bar.dart';
-import '../widget/sign-out-option.dart';
+import '../widget/sign_out_option.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
                           ( builder: (context)=> NewMap()));},
                         child: Container(
                           margin: EdgeInsets.only(
-                              left: 35,
+                              left: 40,
                               top: 1
                           ),
                           padding: EdgeInsets.all(10),
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                           ( builder: (context)=> NewFace()));},
                         child: Container(
                           margin: EdgeInsets.only(
-                              right: 30,
+                              right: 10,
                               left: 30,
                               top: 1
                           ),

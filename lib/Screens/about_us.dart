@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widget/navigation_bar.dart';
-import '../widget/sign-out-option.dart';
+import '../widget/sign_out_option.dart';
 
 class AboutUs extends StatelessWidget {
   const AboutUs({super.key});

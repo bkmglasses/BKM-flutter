@@ -88,10 +88,6 @@ class _NewFaceState extends State<NewFace> {
                     ),
                   ),
                 ),
-                ElevatedButton(onPressed:() {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => DisplayImages()));
-                }, child: Text('images'))
               ],
             ),
           ],

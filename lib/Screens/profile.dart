@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:senior/widget/display-faces.dart';
+import 'package:senior/widget/display_faces.dart';
 import 'package:senior/widget/navigation_bar.dart';
-import '../widget/display-maps.dart';
-import '../widget/sign-out-option.dart';
+import '../widget/display_maps.dart';
+import '../widget/sign_out_option.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -15,7 +15,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   String userName = ""; // Default placeholder for the user's name
-  Widget selectedDisplay = const disFaces(); // Default widget to show faces
+  Widget selectedDisplay = const DisplayImages(); // Default widget to show faces
   bool isFacesSelected = true; // Flag to track which button is selected
 
   @override
@@ -113,7 +113,7 @@ class _ProfileState extends State<Profile> {
                         ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              selectedDisplay = const disFaces();
+                              selectedDisplay = const DisplayImages();
                               isFacesSelected = true; // Faces selected
                             });
                           },
@@ -157,10 +157,13 @@ class _ProfileState extends State<Profile> {
                         ),
                       ],
                     ),
+
                   ),
                 ),
                 // Display the selected widget
                 Container(
+                  padding: EdgeInsets.only(top:80),
+                  height: 400,
                   child: selectedDisplay,
                 ),
               ],
