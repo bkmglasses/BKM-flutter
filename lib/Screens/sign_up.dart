@@ -46,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       //navigate to the next screen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const HomePage(),
+          builder: (context) => const SignInScreen(),
         ),
       );
     } else {
