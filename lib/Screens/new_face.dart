@@ -35,7 +35,7 @@ class _NewFaceState extends State<NewFace> {
               child: Column(
                 children: [
                   Image(
-                    image: AssetImage('assets/p9.png'),
+                    image: AssetImage('assets/p8.png'),
                     height: 140,
                     width: 140,
                   ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:senior/Screens/QR.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:senior/Screens/HomeScreen.dart';
 import 'package:senior/Screens/sign_up.dart';
 import '../Widget/Button.dart';
 import '../Widget/snackbar.dart';
@@ -10,6 +10,7 @@ import '../widget/forgot_pass.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
+
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
@@ -64,15 +65,20 @@ class _SignInScreenState extends State<SignInScreen> {
     if (res == "success") {
       saveUserCredentials(); // Save credentials on successful sign-in
 
-      setState(() {
-        isLoading = false;
-      });
-
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const HomePage(),
-        ),
-      );
+      // Get user ID
+      String? userId = await AuthMethod().getUserId();
+      if (userId != null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => QRPage(userId: userId),
+          ),
+        );
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        showSnackBar(context, "Failed to get user ID");
+      }
     } else {
       setState(() {
         isLoading = false;

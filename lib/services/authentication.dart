@@ -6,34 +6,27 @@ class AuthMethod {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // SignUp User
-
   Future<String> signupUser({
     required String email,
     required String password,
     required String name,
     required String phone,
-
   }) async {
     String res = "Some error Occurred";
     try {
-      if (email.isNotEmpty&&
-          password.isNotEmpty &&
-          name.isNotEmpty &&
-          phone.isNotEmpty) {
-        // register user in auth with email and password
+      if (email.isNotEmpty && password.isNotEmpty && name.isNotEmpty && phone.isNotEmpty) {
+        // Register user in auth with email and password
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
-        // add user to your  firestore database
-        print(cred.user!.uid);
+        // Add user to your Firestore database
         await _firestore.collection("users").doc(cred.user!.uid).set({
           'name': name,
           'uid': cred.user!.uid,
           'email': email,
           'phone': phone,
         });
-
         res = "success";
       }
     } catch (err) {
@@ -42,7 +35,7 @@ class AuthMethod {
     return res;
   }
 
-  // logIn user
+  // LogIn User
   Future<String> SignInUser({
     required String email,
     required String password,
@@ -50,7 +43,7 @@ class AuthMethod {
     String res = "Some error Occurred";
     try {
       if (email.isNotEmpty || password.isNotEmpty) {
-        // logging in user with email and password
+        // Log in user with email and password
         await _auth.signInWithEmailAndPassword(
           email: email,
           password: password,
@@ -65,12 +58,27 @@ class AuthMethod {
     return res;
   }
 
-  // for sighout
+  // For signOut
   Future<void> signOut() async {
     try {
       await _auth.signOut();
     } catch (e) {
       print("Error signing out: $e");
+    }
+  }
+
+  // Get User ID
+  Future<String?> getUserId() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        return user.uid; // Return the user ID
+      } else {
+        return null; // No user is logged in
+      }
+    } catch (e) {
+      print("Error fetching user ID: $e");
+      return null; // Return null in case of an error
     }
   }
 }
