@@ -94,109 +94,111 @@ class _SignInScreenState extends State<SignInScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
       ),
-      body: Container(
-        color: Color.fromARGB(255, 247, 206, 77),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(40),
-                  bottomRight: Radius.circular(40),
+      body: SingleChildScrollView(
+        child: Container(
+          color: Color.fromARGB(255, 247, 206, 77),
+          height: 710,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Welcome Back',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      'Sign in to continue',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    TextFieldInput(
+                      textEditingController: emailController,
+                      hintText: "Email",
+                    ),
+                    TextFieldInput(
+                      textEditingController: passwordController,
+                      hintText: "Password",
+                      isPass: true,
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: isChecked,
+                              onChanged: (value) {
+                                setState(() {
+                                  isChecked = value!;
+                                });
+                              },
+                            ),
+                            Text(
+                              'Remember Me',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ],
+                        ),
+                        const ForgotPassword(),
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                    MyButtons(onTap: SignInUser, text: "Sign in"),
+                  ],
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              Container(
+                padding: const EdgeInsets.only(left: 15, top: 0, right: 15),
+                child: Image(
+                  image: AssetImage('assets/p2.png'),
+                  height: 230,
+                  width: double.infinity,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Welcome Back',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'Sign in to continue',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  TextFieldInput(
-                    textEditingController: emailController,
-                    hintText: "Email",
-                  ),
-                  TextFieldInput(
-                    textEditingController: passwordController,
-                    hintText: "Password",
-                    isPass: true,
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: isChecked,
-                            onChanged: (value) {
-                              setState(() {
-                                isChecked = value!;
-                              });
-                            },
-                          ),
-                          Text(
-                            'Remember Me',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                      const ForgotPassword(),
-                    ],
-                  ),
-                  SizedBox(height: 15),
-                  MyButtons(onTap: SignInUser, text: "Sign in"),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(left: 15, top: 0, right: 15),
-              color: Color.fromARGB(255, 247, 206, 77),
-              child: Image(
-                image: AssetImage('assets/p2.png'),
-                height: 230,
-                width: double.infinity,
-                fit: BoxFit.contain,
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Don't have an account?",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontSize: 14),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => SignUpScreen()));
-                  },
-                  child: Text(
-                    "Create Account",
+                    "Don't have an account?",
                     textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 14, color: Colors.white),
+                    style: TextStyle(fontSize: 14),
                   ),
-                ),
-              ],
-            )
-          ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => SignUpScreen()));
+                    },
+                    child: Text(
+                      "Create Account",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 14, color: Colors.white),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

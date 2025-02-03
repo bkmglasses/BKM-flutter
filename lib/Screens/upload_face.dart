@@ -82,36 +82,38 @@ class _UploadFaceState extends State<UploadFace> {
         backgroundColor: Color.fromARGB(255, 247, 206, 77),
         title: Text('Upload Image'),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 6),
-          _image == null
-              ? Text("No image selected", style: TextStyle(fontSize: 12))
-              : Image.file(_image!, height: 160),
-          TextField(
-            controller: _descriptionController,
-            decoration: InputDecoration(labelText: "Description"),
-          ),
-          SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: _pickImage,
-            child: Text("Pick Image", style: TextStyle(color: Colors.black)),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                Color.fromARGB(255, 247, 206, 77),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 6),
+            _image == null
+                ? Text("No image selected", style: TextStyle(fontSize: 12))
+                : Image.file(_image!, height: 160),
+            TextField(
+              controller: _descriptionController,
+              decoration: InputDecoration(labelText: "Description"),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _pickImage,
+              child: Text("Pick Image", style: TextStyle(color: Colors.black)),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Color.fromARGB(255, 247, 206, 77),
+                ),
               ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: _uploadImageToDatabase,
-            child: Text("Upload", style: TextStyle(color: Colors.black)),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                Color.fromARGB(255, 247, 206, 77),
+            ElevatedButton(
+              onPressed: _uploadImageToDatabase,
+              child: Text("Upload", style: TextStyle(color: Colors.black)),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Color.fromARGB(255, 247, 206, 77),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
